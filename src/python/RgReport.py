@@ -8,6 +8,10 @@ class RgReport:
         self.csv_file_name = csv_file_name
         self.records = self.__csv_as_list()
 
+    def with_description(self, description):
+        self._description = description
+        return self
+
     def total(self, variable = None):
         if variable is None:
             return self.records[len(self.records)-1]
@@ -22,7 +26,7 @@ class RgReport:
             return 0 # TODO throws custom exception?
 
     def measurement_of(self, variable):
-        return RgMeasurement(variable, self.total())
+        return RgMeasurement(variable, self.total()).with_description(self._description)
 
     def __csv_as_list(self):
         with open(self.csv_file_name, 'rb') as csv_file:

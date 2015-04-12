@@ -9,6 +9,7 @@ class RgMeasurement:
     
     def __init__(self, var_name, measurement_list):
         vn = var_name + "%s"
+        self._name = var_name
         self._requests = int(measurement_list[vn%RgMeasurement.REQS_SUFF])
         self._errors = int(measurement_list[vn%RgMeasurement.ERRS_SUFF])
         self._mrt = float(measurement_list[vn%RgMeasurement.MEAN_SUFF])/1e6
@@ -16,3 +17,7 @@ class RgMeasurement:
         self._mrt_max = float(measurement_list[vn%RgMeasurement.MAX_SUFF])/1e6
         self._at = float(measurement_list[vn%RgMeasurement.AT_SUFF])
         self._tt = float(measurement_list[vn%RgMeasurement.TT_SUFF])
+
+    def with_description(self, description):
+        self._description = description
+        return self
