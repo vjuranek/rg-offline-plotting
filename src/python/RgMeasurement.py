@@ -1,3 +1,6 @@
+import inspect
+from RgVars import RgVar
+
 class RgMeasurement:
     REQS_SUFF = ".Requests"
     ERRS_SUFF = ".Errors"
@@ -7,9 +10,13 @@ class RgMeasurement:
     AT_SUFF = ".ActualThroughput"
     TT_SUFF = ".TheoreticalThroughput"
     
-    def __init__(self, var_name, measurement_list):
-        vn = var_name + "%s"
-        self._name = var_name
+    def __init__(self, variable, measurement_list):
+        if inspect.isclass(variable) and issubclass(variable, RgVar):
+            self._name = variable.rg_name
+            self._rg_var = variable
+        else:
+            self._name = variable
+        vn = self._name + "%s"
         self._requests = int(measurement_list[vn%RgMeasurement.REQS_SUFF])
         self._errors = int(measurement_list[vn%RgMeasurement.ERRS_SUFF])
         self._mrt = float(measurement_list[vn%RgMeasurement.MEAN_SUFF])/1e6
