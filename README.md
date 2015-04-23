@@ -2,9 +2,12 @@
 
 This is small set of tools to create plots using [matplotlib](http://matplotlib.org/) from CSV files create by [RadaGun](https://github.com/radargun/radargun).
 
+Add `rgplot` module into your `PYTHONPATH`, e.g. `export PYTHONPATH=$PYTHONPATH:/opt/lib/python/rg-offline-plotting/src/python`, assuming that the repo was checked out into `/opt/lib/python`
 
 Example usage can looks like this:
 ```python
+from rgplot import *
+
 filename1 = 'data/ISPN-server-with-listeners.csv'
 filename2 = 'data/ISPN-server-without-listeners.csv'
 
