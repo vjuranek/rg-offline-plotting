@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from RgVars import MRT, AT
 
 class BarChart:
     COLORS = ['r','b','g','y','gray','violet','orange'] #TODO harcoded list for now, autometed list TBD
@@ -11,14 +12,16 @@ class BarChart:
         self.__create_bars(measurements)
 
     def save_as(self, filename):
-        self.__fig.savefig(filename)
+        self.__fig.savefig(filename, bbox_extra_artists=(self._legend,), bbox_inches='tight')
+        plt.close(self.__fig) # close on save to avoid memory issues
 
     def with_defaults(self):
         self.with_title().with_legend().with_ylabel().with_ygrid().with_bar_labels().wo_xticks()
         return self
         
     def with_legend(self):
-        plt.legend()
+        self._legend = plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05), fancybox=True, shadow=True, ncol=5)
+        #plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         return self
         
     def with_xlabel(self, xlabel):
@@ -58,19 +61,33 @@ class BarChart:
     def __create_bars(self, measurements):
         self.__bars = []
         for i in range(0, len(measurements)):
-            self.__title = measurements[i]._name.replace(".", " ") #last name wins, by default RG uses '.' as a name separator
+            self.__title = measurements[i]._title #last name wins
             if measurements[i]._rg_var is None:
                 self.__ylabel = ""
             else:
-                self.__ylabel = measurements[i]._rg_var.ylabel
-            self.__bars.append(self.__create_bar(measurements[i], i))
-    
-    def __create_bar(self, measurement, i):
+                self.__ylabel = measurements[i]._rg_var.ylabel # TODO check, that _rg_var is not None
+                
+            #decide if plot MRT or thgroughtpu
+            if (issubclass(measurements[i]._rg_var, AT)):
+                self.__bars.append(self.__create_at_bar(measurements[i], i))
+            # elif  (issubclass(measurements[i]._rg_var, MRT)):
+            # default to MRT
+            else:
+                self.__bars.append(self.__create_mrt_bar(measurements[i], i))
+                
+    def __create_mrt_bar(self, measurement, i):
         bar = plt.bar(i, measurement._mrt, BarChart.BAR_WIDTH,
                       alpha = BarChart.OPACITY,
                       color = BarChart.COLORS[i],
                       yerr = measurement._mrt_std_dev,
                       error_kw = BarChart.ERROR_CONFIG,
+                      label = measurement._description)
+        return bar
+
+    def __create_at_bar(self, measurement, i):
+        bar = plt.bar(i, measurement._at, BarChart.BAR_WIDTH,
+                      alpha = BarChart.OPACITY,
+                      color = BarChart.COLORS[i],
                       label = measurement._description)
         return bar
 

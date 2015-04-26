@@ -12,10 +12,13 @@ class RgMeasurement:
     
     def __init__(self, variable, measurement_list):
         if inspect.isclass(variable) and issubclass(variable, RgVar):
-            self._name = variable.rg_name
             self._rg_var = variable
+            self._name = variable.rg_name
+            self._title = variable.title()
         else:
+            self._rg_var = None
             self._name = variable
+            self._title = variable
         vn = self._name + "%s"
         self._requests = int(measurement_list[vn%RgMeasurement.REQS_SUFF])
         self._errors = int(measurement_list[vn%RgMeasurement.ERRS_SUFF])
