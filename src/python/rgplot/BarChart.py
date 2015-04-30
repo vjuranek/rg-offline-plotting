@@ -1,19 +1,20 @@
 import matplotlib.pyplot as plt
+from RgChart import RgChart
 from RgVars import MRT, AT
 
-class BarChart:
+class BarChart(RgChart):
     COLORS = ['r','b','g','y','gray','violet','orange'] #TODO harcoded list for now, autometed list TBD
     BAR_WIDTH = 0.35
     OPACITY = 0.4
     ERROR_CONFIG = {'ecolor': '0.3'}
 
     def __init__(self, *measurements):
-        self.__fig, self.__ax = plt.subplots()
-        self.__create_bars(measurements)
-
+        self._fig, self._ax = plt.subplots()
+        self._create_plot(measurements)
+    
     def save_as(self, filename):
-        self.__fig.savefig(filename, bbox_extra_artists=(self._legend,), bbox_inches='tight')
-        plt.close(self.__fig) # close on save to avoid memory issues
+        self._fig.savefig(filename, bbox_extra_artists=(self._legend,), bbox_inches='tight')
+        plt.close(self._fig) # close on save to avoid memory issues
 
     def with_defaults(self):
         self.with_title().with_legend().with_ylabel().with_ygrid().with_bar_labels().wo_xticks()
@@ -24,58 +25,36 @@ class BarChart:
         #plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         return self
         
-    def with_xlabel(self, xlabel):
-        plt.xlabel(xlabel)
-        return self
-
-    def with_ylabel(self, ylabel = None):
-        if ylabel is None:
-            plt.ylabel(self.__ylabel)
-        else:
-            plt.ylabel(ylabel)
-        return self
-
-    def with_title(self, title = None):
-        if title is None:
-            plt.title(self.__title)
-        else:
-            plt.title(title)
-        return self
-
     def with_ylim(self, lim):
-        self.__ax.set_ylim(lim)
-        return self
-
-    def with_ygrid(self):
-        self.__ax.yaxis.grid(True)
+        self._ax.set_ylim(lim)
         return self
 
     def with_bar_labels(self):
-        self.__label_bars()
+        self._label_bars()
         return self
     
     def wo_xticks(self):
-        self.__ax.get_xaxis().set_ticks([])
+        self._ax.get_xaxis().set_ticks([])
         return self
 
-    def __create_bars(self, measurements):
-        self.__bars = []
+    def _create_plot(self, measurements):
+        self._bars = []
         for i in range(0, len(measurements)):
-            self.__title = measurements[i]._title #last name wins
+            self._title = measurements[i]._title #last name wins
             if measurements[i]._rg_var is None:
-                self.__ylabel = ""
+                self._ylabel = ""
             else:
-                self.__ylabel = measurements[i]._rg_var.ylabel # TODO check, that _rg_var is not None
+                self._ylabel = measurements[i]._rg_var.ylabel # TODO check, that _rg_var is not None
                 
             #decide if plot MRT or thgroughtpu
             if (issubclass(measurements[i]._rg_var, AT)):
-                self.__bars.append(self.__create_at_bar(measurements[i], i))
+                self._bars.append(self._create_at_bar(measurements[i], i))
             # elif  (issubclass(measurements[i]._rg_var, MRT)):
             # default to MRT
             else:
-                self.__bars.append(self.__create_mrt_bar(measurements[i], i))
+                self._bars.append(self._create_mrt_bar(measurements[i], i))
                 
-    def __create_mrt_bar(self, measurement, i):
+    def _create_mrt_bar(self, measurement, i):
         bar = plt.bar(i, measurement._mrt, BarChart.BAR_WIDTH,
                       alpha = BarChart.OPACITY,
                       color = BarChart.COLORS[i],
@@ -84,15 +63,15 @@ class BarChart:
                       label = measurement._description)
         return bar
 
-    def __create_at_bar(self, measurement, i):
+    def _create_at_bar(self, measurement, i):
         bar = plt.bar(i, measurement._at, BarChart.BAR_WIDTH,
                       alpha = BarChart.OPACITY,
                       color = BarChart.COLORS[i],
                       label = measurement._description)
         return bar
 
-    def __label_bars(self):
-        for bar in self.__bars:
+    def _label_bars(self):
+        for bar in self._bars:
             for ibar in bar:
                 height = ibar.get_height()
-                self.__ax.text(ibar.get_x() + ibar.get_width()/2., 1.05*height, '%1.2f'%float(height), ha='center', va='bottom')
+                self._ax.text(ibar.get_x() + ibar.get_width()/2., 1.05*height, '%1.2f'%float(height), ha='center', va='bottom')
