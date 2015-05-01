@@ -10,10 +10,6 @@ class LineChart(RgChart):
         self._fig, self._ax = plt.subplots()
         self._create_plot(measurements)
     
-    def save_as(self, filename):
-        self._fig.savefig(filename)
-        plt.close(self._fig) # close on save to avoid memory issues
-
     def with_defaults(self):
         self.with_title().with_ylabel().with_grids()
         return self

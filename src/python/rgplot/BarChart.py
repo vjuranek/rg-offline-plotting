@@ -25,18 +25,10 @@ class BarChart(RgChart):
         #plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         return self
         
-    def with_ylim(self, lim):
-        self._ax.set_ylim(lim)
-        return self
-
     def with_bar_labels(self):
         self._label_bars()
         return self
     
-    def wo_xticks(self):
-        self._ax.get_xaxis().set_ticks([])
-        return self
-
     def _create_plot(self, measurements):
         self._bars = []
         for i in range(0, len(measurements)):

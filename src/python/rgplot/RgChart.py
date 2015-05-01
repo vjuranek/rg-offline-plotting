@@ -10,6 +10,10 @@ class RgChart(object):
         self._ax.yaxis.grid(True)
         return self
 
+    def save_as(self, filename):
+        self._fig.savefig(filename)
+        plt.close(self._fig) # close on save to avoid memory issues
+
     def with_ygrid(self):
         self._ax.yaxis.grid(True)
         return self
@@ -35,3 +39,14 @@ class RgChart(object):
             plt.ylabel(ylabel)
         return self
 
+    def with_ylim(self, lim):
+        self._ax.set_ylim(lim)
+        return self
+
+    def wo_xticks(self):
+        self._ax.get_xaxis().set_ticks([])
+        return self
+
+    def wo_yticks(self):
+        self._ax.get_yaxis().set_ticks([])
+        return self
