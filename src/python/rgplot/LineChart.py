@@ -29,23 +29,18 @@ class LineChart(RgChart):
         xax = []
         for i in range(0, len(measurements)):
             val.append(measurements[i]._mrt)
-            xax.append(measurements[i]._title)
-            
+            xax.append(measurements[i]._title)            
             self._title = measurements[i]._title #last name wins
-            if measurements[i]._rg_var is None:
-                self._ylabel = ""
-            else:
-                self._ylabel = measurements[i]._rg_var.ylabel # TODO check, that _rg_var is not None
+            self._ylabel = measurements[i]._rg_var.ylabel if measurements[i]._rg_var is None else ""
                 
         plt.xticks(ind)
-        #decide if plot MRT or thgroughtpu
+        #decide if plot MRT or AT
         if (issubclass(measurements[i]._rg_var, AT)):
-            pass
-        # elif  (issubclass(measurements[i]._rg_var, MRT)):
-        # default to MRT
-        else:
+            pass #TODO 
+        elif  (issubclass(measurements[i]._rg_var, MRT)):
             self._ax.plot(ind, val, 'bo-')
-                
+        else:
+            raise ValueError("Unknown variable")
 
 
 class XAxFormatter(Formatter):
