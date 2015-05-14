@@ -4,9 +4,10 @@ from RgMeasurement import RgMeasurement
 class RgReport:
     DELIM = ';'
     
-    def __init__(self, csv_file_name):
+    def __init__(self, csv_file_name, description = None):
         self.csv_file_name = csv_file_name
         self.records = self.__csv_as_list()
+        self._description = description
 
     def with_description(self, description):
         self._description = description
