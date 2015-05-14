@@ -29,5 +29,6 @@ class RgMeasurement:
         self._tt = float(measurement_list[vn%RgMeasurement.TT_SUFF])
 
     def with_description(self, description):
-        self._description = description
+        if description is not None:
+            self._description = description
         return self
