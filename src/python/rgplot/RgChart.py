@@ -11,6 +11,7 @@ class RgChart(object):
         return self
 
     def save_as(self, filename):
+        self._create_plot()
         self._fig.savefig(filename)
         plt.close(self._fig) # close on save to avoid memory issues
 
@@ -50,3 +51,6 @@ class RgChart(object):
     def wo_yticks(self):
         self._ax.get_yaxis().set_ticks([])
         return self
+
+    def _create_plot(self):
+        pass
