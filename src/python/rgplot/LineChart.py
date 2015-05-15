@@ -9,7 +9,6 @@ class LineChart(RgChart):
     def __init__(self, *measurements):
         self._fig, self._ax = plt.subplots()
         self._lines = self._create_base_line(measurements)
-        #self._create_plot()
     
     def with_defaults(self):
         self.with_title().with_ylabel().with_grids()
@@ -22,11 +21,11 @@ class LineChart(RgChart):
             #self.__fig.autofmt_xdate()
         return self
 
-    def add_line(self, *measurements):
-        self._lines.append(self._create_line(measurements))
+    def with_line(self, color = 'b', *measurements):
+        self._lines.append(self._create_line(measurements, color))
         return self
     
-    def _create_line(self, measurements):
+    def _create_line(self, measurements, color = 'b'):
         nm = len(measurements)
         ind = np.arange(nm)
         val, xax = [], []
@@ -38,7 +37,7 @@ class LineChart(RgChart):
         if (issubclass(measurements[i]._rg_var, AT)):
             return None #TODO
         elif  (issubclass(measurements[i]._rg_var, MRT)):
-            return plt.plot(ind, val, 'bo-')
+            return plt.plot(ind, val, '%co-'%color)
         else:
             raise ValueError("Unknown variable")
     
@@ -51,7 +50,6 @@ class LineChart(RgChart):
         baseline = self._lines[0]
         nm = len(baseline.get_data()[0]) # number of measurements on base line
         self._ax.set_xlim(-0.5, nm - 0.5)
-        #plt.xticks(ind)
         plt.setp([self._lines])
 
 
