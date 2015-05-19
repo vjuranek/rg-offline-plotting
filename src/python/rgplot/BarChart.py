@@ -4,7 +4,7 @@ from RgVars import MRT, AT
 
 class BarChart(RgChart):
     COLORS = ['r','b','g','y','gray','violet','orange'] #TODO harcoded list for now, autometed list TBD
-    BAR_WIDTH = 0.35
+    BAR_WIDTH = 0.5
     OPACITY = 0.4
     ERROR_CONFIG = {'ecolor': '0.3'}
 
@@ -66,4 +66,4 @@ class BarChart(RgChart):
         for bar in self._bars:
             for ibar in bar:
                 height = ibar.get_height()
-                self._ax.text(ibar.get_x() + ibar.get_width()/2., 1.05*height, '%1.2f'%float(height), ha='center', va='bottom')
+                self._ax.text(ibar.get_x() + ibar.get_width()/2., 1.05*height, '%1.3f'%float(height), ha='center', va='bottom')
