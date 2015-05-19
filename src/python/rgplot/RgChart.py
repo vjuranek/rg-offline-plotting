@@ -1,11 +1,10 @@
 import matplotlib.pyplot as plt
+import constants as const
 
 #class RgChart(object):
     #__metaclass__ = ABCMeta
 
 class RgChart(object):
-
-    TITLE_Y_OFFSET = 1.08
     
     def with_grids(self):
         self._ax.xaxis.grid(True)
@@ -21,11 +20,15 @@ class RgChart(object):
         self._ax.yaxis.grid(True)
         return self
     
-    def with_title(self, title = None, y_offset = RgChart.TITLE_Y_OFFSET):
+    def with_title(self, title = None, y_offset = const.TITLE_Y_OFFSET):
         if title is None:
             plt.title(self._title, y = y_offset)
         else:
             plt.title(title, y = y_offset)
+        return self
+
+    def with_text(self, text, x_pos, y_pos):
+        self._ax.text(x_pos, y_pos, text, transform = self._ax.transAxes)
         return self
 
     def with_xlabel(self, xlabel = None):
@@ -50,6 +53,12 @@ class RgChart(object):
         self._ax.set_ylim(lim)
         return self
 
+    def with_hline(self, y, color = 'b', style = '-', xmin = 0, xmax = 1):
+        line = self._ax.axhline(y, xmin, xmax)
+        line.set_color(color)
+        line.set_linestyle(style)
+        return self
+    
     def wo_xticks(self):
         self._ax.get_xaxis().set_ticks([])
         return self
