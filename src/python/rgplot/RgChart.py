@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
     #__metaclass__ = ABCMeta
 
 class RgChart(object):
+
+    TITLE_Y_OFFSET = 1.08
     
     def with_grids(self):
         self._ax.xaxis.grid(True)
@@ -19,11 +21,11 @@ class RgChart(object):
         self._ax.yaxis.grid(True)
         return self
     
-    def with_title(self, title = None):
+    def with_title(self, title = None, y_offset = RgChart.TITLE_Y_OFFSET):
         if title is None:
-            plt.title(self._title)
+            plt.title(self._title, y = y_offset)
         else:
-            plt.title(title)
+            plt.title(title, y = y_offset)
         return self
 
     def with_xlabel(self, xlabel = None):
@@ -40,6 +42,10 @@ class RgChart(object):
             plt.ylabel(ylabel)
         return self
 
+    def with_ylog(self):
+        self._ax.set_yscale('log')
+        return self
+    
     def with_ylim(self, lim):
         self._ax.set_ylim(lim)
         return self
