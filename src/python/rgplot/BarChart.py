@@ -1,12 +1,9 @@
 import matplotlib.pyplot as plt
+import constants as const
 from RgChart import RgChart
 from RgVars import MRT, AT
 
 class BarChart(RgChart):
-    COLORS = ['r','b','g','y','gray','violet','orange'] #TODO harcoded list for now, autometed list TBD
-    BAR_WIDTH = 0.5
-    OPACITY = 0.4
-    ERROR_CONFIG = {'ecolor': '0.3'}
 
     def __init__(self, *measurements):
         self._fig, self._ax = plt.subplots()
@@ -47,18 +44,18 @@ class BarChart(RgChart):
                 self._bars.append(self._create_mrt_bar(measurements[i], i))
                 
     def _create_mrt_bar(self, measurement, i):
-        bar = plt.bar(i, measurement._mrt, BarChart.BAR_WIDTH,
-                      alpha = BarChart.OPACITY,
-                      color = BarChart.COLORS[i],
+        bar = plt.bar(i, measurement._mrt, const.BAR_WIDTH,
+                      alpha = const.OPACITY,
+                      color = const.COLORS[i],
                       yerr = measurement._mrt_std_dev,
-                      error_kw = BarChart.ERROR_CONFIG,
+                      error_kw = const.ERROR_CONFIG,
                       label = measurement._description)
         return bar
 
     def _create_at_bar(self, measurement, i):
-        bar = plt.bar(i, measurement._at, BarChart.BAR_WIDTH,
-                      alpha = BarChart.OPACITY,
-                      color = BarChart.COLORS[i],
+        bar = plt.bar(i, measurement._at, const.BAR_WIDTH,
+                      alpha = const.OPACITY,
+                      color = const.COLORS[i],
                       label = measurement._description)
         return bar
 

@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import constants as const
 from matplotlib.ticker import Formatter
 from RgChart import RgChart
 from RgVars import MRT, AT
@@ -49,7 +50,7 @@ class LineChart(RgChart):
     def _create_plot(self):
         baseline = self._lines[0]
         nm = len(baseline.get_data()[0]) # number of measurements on base line
-        self._ax.set_xlim(-0.5, nm - 0.5)
+        self._ax.set_xlim(-const.X_AX_OFFSET, nm - const.X_AX_OFFSET)
         plt.setp([self._lines])
 
 
