@@ -10,7 +10,7 @@ class LineChart(RgChart):
     def __init__(self, *measurements):
         self._fig, self._ax = plt.subplots()
         self._lines = self._create_base_line(measurements)
-    
+        
     def with_defaults(self):
         self.with_title().with_ylabel().with_grids()
         return self
@@ -23,7 +23,13 @@ class LineChart(RgChart):
         return self
 
     def with_line(self, color = 'b', *measurements):
-        self._lines.append(self._create_line(measurements, color))
+        self._lines.append(self._create_line(measurements, color)[0])
+        return self
+
+    def with_legend(self, *labels):
+        for i in range(0,len(labels)):
+            self._lines[i].set_label(labels[i])
+        self._legend = plt.legend(loc='upper center', fancybox=True, shadow=True, ncol=5)
         return self
     
     def _create_line(self, measurements, color = 'b'):
