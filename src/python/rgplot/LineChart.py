@@ -66,7 +66,10 @@ class XAxFormatter(Formatter):
 
     def __call__(self, x, pos=0):
         'Return the label for time x at position pos'
-        ind = int(round(x))
-        if ind >= len(self._xvals) or ind < 0: return ''
-
-        return self._xvals[ind]
+        #ind = int(round(x))
+        #if ind >= len(self._xvals) or ind < 0: return ''
+        if(x.is_integer()):
+            ind = int(x)
+            return self._xvals[ind]
+        else:
+            return ''
