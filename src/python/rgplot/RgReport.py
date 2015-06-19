@@ -14,17 +14,21 @@ class RgReport:
         return self
 
     def total(self, variable = None):
-        if variable is None:
-            return self.records[len(self.records)-1]
-        else:
-            return self.records[len(self.records)-1][variable]
+        try:
+            if variable is None:
+                return float(self.records[len(self.records)-1])
+            else:
+                return float(self.records[len(self.records)-1][variable])
+        
+        except ValueError:
+            return -1 # TODO throws custom exception?
 
     def total_in_mu(self, variable):
         '''Radar Gun stores results in nanoseconds. Typical scale is however microsecond.'''
         try:
             return float(self.records[len(self.records)-1][variable])/1000
         except ValueError:
-            return 0 # TODO throws custom exception?
+            return -1 # TODO throws custom exception?
 
     def measurement_of(self, variable):
         return RgMeasurement(variable, self.total()).with_description(self._description)
