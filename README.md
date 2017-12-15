@@ -1,6 +1,6 @@
 # RadarGun offline plotting utility
 
-This is small set of tools to create plots using [matplotlib](http://matplotlib.org/) from CSV files create by [RadaGun](https://github.com/radargun/radargun).
+This is small set of tools to create plots using [matplotlib](http://matplotlib.org/) from CSV files create by [RadarGun](https://github.com/radargun/radargun).
 
 Add `rgplot` module into your `PYTHONPATH`, e.g. `export PYTHONPATH=$PYTHONPATH:/opt/lib/python/rg-offline-plotting/src/python`, assuming that the repo was checked out into `/opt/lib/python`
 
@@ -17,6 +17,8 @@ Here you also specify a vaiable, which you are interested in.
 ##### Bar chart
 A bar chart can be create e.g. in this way:
 ```python
+#!/usr/bin/env python
+
 from rgplot import *
 
 filename1 = 'data/ISPN-server-with-listeners.csv'
